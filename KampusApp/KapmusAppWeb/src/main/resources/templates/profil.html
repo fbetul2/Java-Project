@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profilim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-white px-4 border-bottom fixed-top">
+        <div class="container">
+            <a href="/" class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left"></i> Ana Sayfa</a>
+            <span class="fw-bold ms-3 text-primary">Profilim</span>
+            <div class="ms-auto">
+                 <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Çıkış</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-4">
+        <div class="row">
+            
+            <div class="col-md-4 mb-3">
+                <div class="card p-4 text-center">
+                    <img th:if="${ben.profilResmiBase64 != null}" th:src="@{'data:image/png;base64,' + ${ben.profilResmiBase64}}" class="rounded-circle mx-auto mb-3 shadow" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #b60e26;">
+                    <div th:if="${ben.profilResmiBase64 == null}" class="mx-auto nav-avatar shadow mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
+                        <span th:text="${#strings.substring(ben.adSoyad,0,1)}">A</span>
+                    </div>
+                    
+                    <h3 class="fw-bold text-dark" th:text="${ben.adSoyad}">Ad Soyad</h3>
+                    <p class="text-muted" th:text="${ben.bolum}">Bölüm</p>
+                    
+                    <button class="btn btn-outline-primary btn-sm mt-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#ayarlarAlani">
+                        <i class="fas fa-cog"></i> Profili Düzenle
+                    </button>
+                    
+                    <div class="collapse mt-3 text-start" id="ayarlarAlani">
+                        <div class="card card-body bg-light border-0">
+                            <form th:action="@{/profil-bilgi-guncelle}" method="post">
+                                <div class="mb-2"><small class="fw-bold">Ad Soyad</small><input type="text" name="adSoyad" class="form-control form-control-sm" th:value="${ben.adSoyad}" required></div>
+                                <div class="mb-2"><small class="fw-bold">Bölüm</small><input type="text" name="bolum" class="form-control form-control-sm" th:value="${ben.bolum}" required></div>
+                                <div class="mb-2"><small class="fw-bold">Yeni Şifre</small><input type="password" name="yeniSifre" class="form-control form-control-sm" placeholder="******"></div>
+                                <button type="submit" class="btn btn-success btn-sm w-100 mt-2">Güncelle</button>
+                            </form>
+                            <hr>
+                            <form th:action="@{/profil-resmi-guncelle}" method="post" enctype="multipart/form-data">
+                                <small class="fw-bold">Fotoğraf</small>
+                                <input type="file" name="resim" class="form-control form-control-sm mb-2" accept="image/*" required>
+                                <button type="submit" class="btn btn-primary btn-sm w-100">Resmi Değiştir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    <li class="nav-item"><button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#gonderiler">Gönderilerim</button></li>
+                    <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#takipettiklerim">Takip Ettiklerim (<span th:text="${#lists.size(ben.takipEdilenler)}"></span>)</button></li>
+                    <li class="nav-item"><button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#takipciler">Takipçilerim (<span th:text="${#lists.size(ben.takipciler)}"></span>)</button></li>
+                </ul>
+                
+                <div class="tab-content bg-white rounded-3 shadow-sm p-4 border-0">
+                    
+                    <div class="tab-pane fade show active" id="gonderiler">
+                        <div th:each="g : ${gonderilerim}" class="card mb-3 border shadow-none bg-light">
+                            <div class="card-body">
+                                <p class="card-text" th:text="${g.metin}">Metin</p>
+                                <img th:if="${g.resimBase64 != null}" th:src="@{'data:image/png;base64,' + ${g.resimBase64}}" class="img-fluid rounded-3 shadow-sm" style="max-height: 200px;">
+                                <div class="text-muted small mt-2"><i class="fas fa-heart text-danger"></i> <span th:text="${g.begeniSayisi}"></span> Beğeni</div>
+                            </div>
+                        </div>
+                        <div th:if="${gonderilerim.empty}" class="text-center text-muted py-4"><i class="fas fa-ghost fa-2x mb-2 opacity-25"></i><br>Hiç gönderin yok.</div>
+                    </div>
+
+                    <div class="tab-pane fade" id="takipettiklerim">
+                        <div th:each="kisi : ${ben.takipEdilenler}" class="d-flex justify-content-between align-items-center border-bottom py-2">
+                            <div class="d-flex align-items-center">
+                                 <img th:if="${kisi.profilResmiBase64 != null}" th:src="@{'data:image/png;base64,' + ${kisi.profilResmiBase64}}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                 <div th:if="${kisi.profilResmiBase64 == null}" class="nav-avatar me-2" style="width:32px; height:32px; font-size:12px;"><span th:text="${#strings.substring(kisi.adSoyad,0,1)}">A</span></div>
+                                <span th:text="${kisi.adSoyad}" class="fw-bold text-dark">İsim</span>
+                            </div>
+                            <a th:href="@{/takip-birak/{id}(id=${kisi.id})}" class="btn btn-outline-danger btn-sm rounded-pill">Takibi Bırak</a>
+                        </div>
+                        <div th:if="${ben.takipEdilenler.empty}" class="text-center text-muted py-4">Kimseyi takip etmiyorsun.</div>
+                    </div>
+
+                    <div class="tab-pane fade" id="takipciler">
+                        <div th:each="kisi : ${ben.takipciler}" class="d-flex justify-content-between align-items-center border-bottom py-2">
+                            <div class="d-flex align-items-center">
+                                 <img th:if="${kisi.profilResmiBase64 != null}" th:src="@{'data:image/png;base64,' + ${kisi.profilResmiBase64}}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                 <div th:if="${kisi.profilResmiBase64 == null}" class="nav-avatar me-2" style="width:32px; height:32px; font-size:12px;"><span th:text="${#strings.substring(kisi.adSoyad,0,1)}">A</span></div>
+                                <span th:text="${kisi.adSoyad}" class="fw-bold text-dark">İsim</span>
+                            </div>
+                            <a th:href="@{/takipci-cikar/{id}(id=${kisi.id})}" class="btn btn-outline-warning btn-sm rounded-pill text-dark">Listeden Çıkar</a>
+                        </div>
+                         <div th:if="${ben.takipciler.empty}" class="text-center text-muted py-4">Henüz takipçin yok.</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

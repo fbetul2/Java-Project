@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mesajlar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/mesaj.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center">
+                <a href="/" class="btn btn-outline-secondary btn-sm me-3 rounded-pill border-0 bg-light">
+                    <i class="fas fa-arrow-left"></i> Ana Sayfa
+                </a>
+                <span class="navbar-brand mb-0 h1" style="font-size: 1.2rem;">
+                    <i class="fas fa-comments text-burgundy"></i> Sohbetler
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="chat-layout">
+        
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-users"></i> Arkadaşlar
+            </div>
+            
+            <div class="user-list">
+                <div th:each="arkadas : ${arkadaslar}" 
+                     class="user-card"
+                     th:data-id="${arkadas.id}"
+                     th:data-ad="${arkadas.adSoyad}"
+                     onclick="sohbetSec(this)">
+                    
+                    <img th:if="${arkadas.profilResmiBase64 != null}" 
+                         th:src="@{'data:image/png;base64,' + ${arkadas.profilResmiBase64}}" 
+                         class="user-avatar shadow-sm">
+                          
+                    <div th:if="${arkadas.profilResmiBase64 == null}" 
+                         class="user-avatar shadow-sm" 
+                         th:text="${#strings.substring(arkadas.adSoyad, 0, 1)}">A</div>
+
+                    <div class="user-info">
+                        <h6 th:text="${arkadas.adSoyad}">İsim Soyad</h6>
+                        <span th:text="${arkadas.bolum}">Bölüm</span>
+                    </div>
+                </div>
+
+                <div th:if="${arkadaslar.empty}" class="text-center p-4 text-muted">
+                    <i class="far fa-sad-tear fa-2x mb-2 opacity-50"></i>
+                    <p class="small">Henüz kimseyi takip etmiyorsun.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-panel">
+            
+            <div class="chat-header-bar">
+                <h5 class="m-0 fw-bold text-burgundy" id="chat-header-name">
+                    <i class="far fa-comment-dots"></i> Bir kişi seçin
+                </h5>
+            </div>
+
+            <div class="messages-area" id="chat-box">
+                <div class="chat-placeholder">
+                    <i class="fas fa-paper-plane fa-3x mb-3 opacity-25"></i>
+                    <p>Mesajlaşmaya başlamak için soldan bir arkadaşını seç.</p>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <label class="btn btn-light rounded-circle text-secondary" style="cursor: pointer; width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center;" title="Resim Gönder">
+                    <i class="fas fa-paperclip"></i>
+                    <input type="file" id="resim-input" accept="image/*" hidden onchange="resimSecildi(this)">
+                </label>
+
+                <input type="text" id="mesaj-input" class="chat-input" placeholder="Bir mesaj yaz..." autocomplete="off">
+                
+                <button onclick="mesajGonder()" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.benimIdGlobal = /*[[${ben.id}]]*/ 0;
+        window.onload = function() { baglan(window.benimIdGlobal); };
+        /*]]>*/
+    </script>
+    <script src="/js/mesaj.js"></script>
+    
+    <script>
+        // Eğer mesaj.js dosyasında 'message' sınıfı kullanılıyorsa, bu script onu 'msg' (yeni css) ile eşleştirir.
+        // Ama en temizi mesaj.js içindeki 'message' sınıfını 'msg' yapmaktır.
+        // Yine de güvenlik için buraya ekliyoruz:
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.classList && node.classList.contains('message')) {
+                        node.classList.add('msg'); // Eski 'message' sınıfını yeni 'msg' stiline uydur
+                    }
+                });
+            });
+        });
+        const chatBox = document.getElementById('chat-box');
+        if(chatBox) observer.observe(chatBox, { childList: true });
+    </script>
+
+</body>
+</html>

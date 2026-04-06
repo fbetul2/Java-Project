@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Arama Sonuçları</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white px-4 border-bottom">
+        <a href="/" class="btn btn-outline-secondary btn-sm">Ana Sayfaya Dön</a>
+        <span class="fw-bold ms-3">Arama Sonuçları</span>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-3">
+                    <h5 class="mb-3">Sonuçlar</h5>
+                    
+                    <div th:each="kisi : ${sonuclar}" class="d-flex justify-content-between align-items-center border-bottom py-3">
+                        <div class="d-flex align-items-center">
+                            <img th:if="${kisi.profilResmi != null}" 
+                                 th:src="@{'data:image/png;base64,' + ${kisi.profilResmiBase64}}" 
+                                 class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                 
+                            <div th:if="${kisi.profilResmi == null}" class="nav-avatar me-3 bg-primary text-white d-flex align-items-center justify-content-center" style="width:40px; height:40px; border-radius:50%;">
+                                <span th:text="${#strings.substring(kisi.adSoyad,0,1)}">A</span>
+                            </div>
+                            
+                            <div>
+                                <h6 class="mb-0 fw-bold" th:text="${kisi.adSoyad}">İsim</h6>
+                                <small class="text-muted" th:text="${kisi.bolum}">Bölüm</small>
+                            </div>
+                        </div>
+                        
+                        <div th:if="${!ben.takipEdilenler.contains(kisi)}">
+                            <a th:href="@{/takip-et/{id}(id=${kisi.id})}" class="btn btn-sm btn-outline-primary">Takip Et</a>
+                        </div>
+                        <div th:if="${ben.takipEdilenler.contains(kisi)}">
+                            <span class="badge bg-success">Takip Ediliyor</span>
+                        </div>
+                    </div>
+
+                    <div th:if="${sonuclar.empty}" class="text-center text-muted mt-3">
+                        <p>Kriterlere uygun öğrenci bulunamadı.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

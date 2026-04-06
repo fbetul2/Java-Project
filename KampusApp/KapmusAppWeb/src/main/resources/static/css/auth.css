@@ -1,0 +1,116 @@
+/* ==========================================
+   auth.css - Sadece Login ve Kayıt İçin
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --auth-burgundy: #b60e26;
+    --auth-burgundy-dark: #8a0a1d;
+    --auth-bg-dark: #2c3038;
+    --auth-bg-card: #ffffff;
+    --auth-text: #2d3142;
+    --auth-gray: #838996;
+    --auth-border: #e5e7eb;
+    --gradient-burgundy: linear-gradient(135deg, #b60e26 0%, #d41332 100%);
+    --gradient-dark-bg: linear-gradient(135deg, #2c3038 0%, #3f4451 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--gradient-dark-bg);
+    color: var(--auth-text);
+    line-height: 1.6;
+    font-size: 15px;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;           /* Kartı ortalamak için */
+    align-items: center;     /* Dikey orta */
+    justify-content: center; /* Yatay orta */
+    position: relative;
+}
+
+/* Arka plan deseni */
+body::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(182, 14, 38, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* --- GİRİŞ KARTI --- */
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 24px;
+    background: var(--auth-bg-card);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    margin: 20px;
+    text-align: center;
+}
+
+/* --- GENEL STİLLER --- */
+h2, h3 { font-weight: 700; letter-spacing: -0.5px; }
+.text-burgundy { color: var(--auth-burgundy) !important; }
+.text-muted { color: var(--auth-gray) !important; }
+.small { font-size: 0.85rem; }
+
+/* --- FORM ELEMANLARI --- */
+.form-control {
+    border: 2px solid var(--auth-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--auth-burgundy);
+    box-shadow: 0 0 0 4px rgba(182, 14, 38, 0.1);
+    outline: none;
+}
+
+.form-floating > label { padding-left: 16px; color: var(--auth-gray); }
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--auth-burgundy); font-weight: 600;
+}
+
+/* --- BUTONLAR --- */
+.btn {
+    border-radius: 12px; font-weight: 600; border: none; transition: all 0.3s ease;
+    display: inline-block; text-decoration: none;
+}
+
+.btn-lg { padding: 14px 20px; font-size: 16px; }
+
+.custom-btn-primary {
+    background: var(--gradient-burgundy);
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(182, 14, 38, 0.3);
+}
+.custom-btn-primary:hover {
+    background: var(--auth-burgundy-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(182, 14, 38, 0.4);
+    color: #fff !important;
+}
+
+.custom-btn-success {
+    background-color: #10b981; color: #ffffff !important;
+}
+.custom-btn-success:hover {
+    background-color: #059669; transform: translateY(-2px); color: #fff !important;
+}
+
+/* --- ALERTLER --- */
+.custom-alert-danger { background-color: #fff5f5; color: #e02424; border: 1px solid #fde8e8; border-radius: 12px; padding: 12px; font-size: 0.9rem; font-weight: 500; margin-bottom: 15px; }
+.custom-alert-success { background-color: #f0fdf4; color: #059669; border: 1px solid #dcfce7; border-radius: 12px; padding: 12px; font-size: 0.9rem; font-weight: 500; margin-bottom: 15px; }
+.custom-alert-info { background-color: #eff6ff; color: #3b82f6; border: 1px solid #dbeafe; border-radius: 12px; padding: 12px; font-size: 0.9rem; font-weight: 500; margin-bottom: 15px; }
+
+.border-top { border-top: 1px solid var(--auth-border) !important; margin-top: 20px; padding-top: 20px; }

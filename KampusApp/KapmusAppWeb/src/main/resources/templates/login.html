@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap - KampüsApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/auth.css"> 
+    
+</head>
+<body>
+    <div class="auth-card">
+        <div class="mb-4">
+          
+            <h2 class="fw-bold mt-2 text-burgundy">
+				<img th:src="@{/images/1.jpeg}" alt="Logo" width="70" style="border-radius: 60px;" height="70" class="d-inline-block align-text-center me-2">
+				KampüsApp</h2>
+            <p class="text-muted mb-0">Çalış, Yarış, Kazan! 🚀</p>
+        </div>
+
+        <div th:if="${param.error}" class="custom-alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i> Hatalı kullanıcı adı veya şifre!
+        </div>
+        <div th:if="${param.basarili}" class="custom-alert-success">
+            <i class="fas fa-check-circle me-2"></i> Kayıt başarılı! Giriş yapabilirsiniz.
+        </div>
+        <div th:if="${param.logout}" class="custom-alert-info">
+            <i class="fas fa-info-circle me-2"></i> Başarıyla çıkış yapıldı.
+        </div>
+
+        <form th:action="@{/login}" method="post" class="text-start">
+            <div class="form-floating mb-3">
+                <input type="text" name="username" class="form-control" id="uName" placeholder="Kullanıcı Adı" required autofocus>
+                <label for="uName"><i class="fas fa-user me-2"></i>Kullanıcı Adı</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input type="password" name="password" class="form-control" id="pass" placeholder="Şifre" required>
+                <label for="pass"><i class="fas fa-lock me-2"></i>Şifre</label>
+            </div>
+            <button type="submit" class="btn custom-btn-primary w-100 btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i> Giriş Yap
+            </button>
+        </form>
+
+        <div class="border-top">
+            <p class="text-muted mb-2 small">Hesabın yok mu?</p>
+            <a th:href="@{/kayit}" class="btn custom-btn-success w-100">
+                <i class="fas fa-user-plus me-2"></i> Yeni Hesap Oluştur
+            </a>
+        </div>
+        
+        <div class="mt-4">
+            <small class="text-muted"><i class="fas fa-shield-alt me-1"></i> Verileriniz güvende</small>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* ============================================================
+   KAPÜSAPP - FİNAL TEMA (FULL BORDO & GRİ)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* --- ANA RENKLER --- */
+    --burgundy: #b60e26;       /* Ana Renk */
+    --burgundy-dark: #8a0a1d;  /* Hover Rengi */
+    --burgundy-light: #fcece6; /* Açık Ton */
+    
+    /* --- NÖTR RENKLER --- */
+    --text-dark: #2d3142;
+    --text-muted: #838996;
+    --bg-main: #f8f9fb;
+    --bg-card: #ffffff;
+    
+    /* --- GİRİŞ EKRANI --- */
+    --auth-bg-dark: #2c3038;
+    --gradient-burgundy: linear-gradient(135deg, #b60e26 0%, #d41332 100%);
+    
+    /* --- GÖLGELER --- */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   1. GENEL SAYFA YAPISI
+   ========================================== */
+body {
+    background-color: var(--bg-main);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    padding-top: 30px;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Giriş Ekranı */
+body.auth-body {
+    background: linear-gradient(135deg, var(--auth-bg-dark) 0%, #3f4451 100%);
+    height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 !important;
+}
+body.auth-body::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(182, 14, 38, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+a { text-decoration: none !important; color: var(--burgundy); transition: all 0.2s; }
+a:hover { color: var(--burgundy-dark); }
+
+/* ==========================================
+   2. BOOTSTRAP RENK EZME (ÖNEMLİ KISIM)
+   ========================================== */
+
+/* Mavi Yazıları Bordo Yap */
+.text-primary { color: var(--burgundy) !important; }
+.bg-primary { background-color: var(--burgundy) !important; }
+.border-primary { border-color: var(--burgundy) !important; }
+
+/* Dolu Butonlar (btn-primary) */
+.btn-primary, .custom-btn-primary {
+    background: var(--gradient-burgundy) !important;
+    border: none !important; color: #fff !important;
+    box-shadow: 0 4px 15px rgba(182, 14, 38, 0.3);
+}
+.btn-primary:hover, .custom-btn-primary:hover {
+    background: var(--burgundy-dark) !important;
+    transform: translateY(-2px);
+}
+
+/* Çerçeveli Butonlar (btn-outline-primary) - PROFİLİ DÜZENLE BUTONU İÇİN */
+.btn-outline-primary {
+    color: var(--burgundy) !important;
+    border-color: var(--burgundy) !important;
+}
+.btn-outline-primary:hover {
+    background-color: var(--burgundy) !important;
+    color: #fff !important;
+    border-color: var(--burgundy) !important;
+}
+
+/* Sekmeler (Nav Tabs) - GÖNDERİLERİM/TAKİPÇİLERİM İÇİN */
+.nav-tabs .nav-link {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.nav-tabs .nav-link.active {
+    color: var(--burgundy) !important; /* Aktif Sekme Yazısı Bordo */
+    border-color: #e5e7eb #e5e7eb #fff;
+    background-color: #fff;
+}
+.nav-tabs .nav-link:hover {
+    color: var(--burgundy-dark);
+}
+
+/* ==========================================
+   3. KARTLAR & BİLEŞENLER
+   ========================================== */
+.auth-card {
+    width: 100%; max-width: 420px; padding: 40px;
+    border-radius: 24px; background: var(--bg-card);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative; z-index: 1; text-align: center;
+}
+
+.card {
+    border: none; border-radius: 16px; background: var(--bg-card);
+    box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+    transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-2px); }
+
+/* ==========================================
+   4. FORM ELEMANLARI
+   ========================================== */
+.form-control {
+    border: 2px solid #e5e7eb; padding: 12px 16px;
+    border-radius: 12px; font-size: 14px;
+}
+.form-control:focus {
+    border-color: var(--burgundy);
+    box-shadow: 0 0 0 4px rgba(182, 14, 38, 0.1); outline: none;
+}
+
+/* ==========================================
+   5. NAVBAR & PROFİL
+   ========================================== */
+.navbar {
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05); border-bottom: 1px solid #e5e7eb;
+    padding: 12px 0;
+}
+.navbar-brand { font-weight: 800; color: var(--burgundy) !important; font-size: 1.5rem; }
+
+.nav-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gradient-burgundy); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 14px;
+}
+
+/* ==========================================
+   6. ÖZEL BİLEŞENLER (POMODORO & CHAT)
+   ========================================== */
+.timer-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 6px solid var(--burgundy);
+    background: linear-gradient(180deg, rgba(182, 14, 38, 0.05) 0%, transparent 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; font-weight: 800; color: var(--burgundy);
+    margin: 0 auto 1rem auto;
+}
+
+.chat-wrapper { height: calc(100vh - 100px); overflow: hidden; }
+.chat-container { height: 100%; background: #fff; border-radius: 16px; box-shadow: var(--shadow); display: flex; }
+.users-list { width: 30%; border-right: 1px solid #eee; overflow-y: auto; }
+.chat-area { width: 70%; display: flex; flex-direction: column; background: #f8f9fa; }
+.user-item:hover { background-color: var(--burgundy-light); }
+.message.outgoing { background: var(--burgundy); color: #fff; border-bottom-right-radius: 0; }
+.message.incoming { background: #fff; border: 1px solid #ddd; border-bottom-left-radius: 0; }
+
+.text-burgundy { color: var(--burgundy) !important; }
+.rounded-pill { border-radius: 50px !important; }
